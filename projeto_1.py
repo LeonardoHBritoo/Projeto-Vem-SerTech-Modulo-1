@@ -1,3 +1,5 @@
+#Variável global para armazenar restaurantes
+#[["Nome do restaurante",[prato_1, prato_2, prato_3]]]
 restaurantes = []
 
 def menu():
@@ -10,32 +12,30 @@ def menu():
   => '''
     return input(menu)
 
+
+# Retorna lista com nome, valor, e tempo de preparo de cada prato
+# [[prato_1,valor,tempo],[prato_2,valor,tempo]]
 def adiciona_cardapio():
   cardapio = []
   finaliza = True
   while finaliza:
-    prato = input('Nome do prato: ')
-    valor_prato_str = input('Valor do prato: ')
-    valor_prato_str = valor_prato_str.replace(',', '.')
+    nome_prato = input('Nome do prato: ')
+    valor_prato_str = input('Valor do prato: ').replace(',', '.')
     valor_prato = float(valor_prato_str)
     tempo_preparo = input('Tempo de preparo: ')
+    
+    cardapio.append([nome_prato, valor_prato, tempo_preparo])
+    
     print('[0] - Finalizar \n[1] - Continuar')
-    finalizar = input()
-    finaliza = finalizar != '0'
-    pratos = []
-    pratos.append(prato)
-    pratos.append(valor_prato)
-    pratos.append(tempo_preparo)
-    cardapio.append(pratos) 
+    if input() == '0':
+        break
   return cardapio
 
 def adiciona_restaurante():
-  restaurante = input('Nome do restaurante: ')
-  cardapio = adiciona_cardapio()
-  restaurante_atual = []
-  restaurante_atual.append(restaurante)
-  restaurante_atual.append(cardapio)
-  restaurantes.append(restaurante_atual)
+  nome_restaurante = input('Nome do restaurante: ')
+  cardapio_restaurante = adiciona_cardapio()
+  novo_restaurante = [nome_restaurante,cardapio_restaurante]
+  restaurantes.append(novo_restaurante)
 
 def exibe_menu(nome_restaurante):
   for item in restaurantes:
@@ -62,33 +62,34 @@ def exibir_pedido(pedido):
 
 def realizar_pedido():
   pedidos = []
-  sem_ideia = 1
-  while sem_ideia:
-    pedido = input('Digite o prato que desejado: ').title()
-    for item in restaurantes:
-      prato = item[1]
-      for p in prato:
-        if pedido in p:
-          pedidos.append(p)
+  while True:
+    prato_desejado = input('Digite o prato desejado: ').title()
+    for restaurante in restaurantes:
+      cardapio = restaurante[1]
+      for prato in cardapio:
+        if prato_desejado == prato[0]:
+          pedidos.append(prato)
     print('[1] - Continuar com pedido \n[0] - Finalizar pedido')
-    continua_pedido = input()
-    if continua_pedido == "0":
-      sem_ideia = 0
+    if input() == '0':
+      break
   exibir_pedido(pedidos)
 
 def selecionar_restaurante():
+  # restaurante[0] retorna o nome do restaurante selecionado
+  # restaurante[1] retorna o cardápio do restaurante
   print('Estes são os restaurantes disponíveis:')
+  
   for restaurante in restaurantes:
       print(restaurante[0])
 
-  resto = 1
-  while resto:
+  while True:
     restaurante_buscado = input('Digite o nome do restaurante: ').title()
-    for i in restaurantes:
-      if restaurante_buscado in i:
+    for restaurante in restaurantes:
+      if restaurante_buscado == restaurante[0]:
         exibe_menu(restaurante_buscado)
-        resto = 0
-  realizar_pedido()
+        realizar_pedido()
+        return
+    print("Restaurante não encontrado. Tente novamente.")
 
 def main():
   while True:
