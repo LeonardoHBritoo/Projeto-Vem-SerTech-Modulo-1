@@ -21,7 +21,7 @@ def adiciona_cardapio():
   cardapio = []
   finaliza = True
   while finaliza:
-    nome_prato = input('Nome do prato: ')
+    nome_prato = input('Nome do prato: ').title()
     valor_prato_str = input('Valor do prato: ').replace(',', '.')
     valor_prato = float(valor_prato_str)
     tempo_preparo = input('Tempo de preparo: ')
