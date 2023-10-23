@@ -33,6 +33,7 @@ def adicionar_cardapio():
 
 def adicionar_restaurante(nome_restaurante):
   nome_restaurante1 = nome_restaurante
+  print('Adicione ao menos um prato ao cardápio para confirmar cadastro:\n')
   cardapio_restaurante = adicionar_cardapio()
   novo_restaurante = [nome_restaurante1,cardapio_restaurante]
   restaurantes.append(novo_restaurante)
@@ -48,7 +49,7 @@ def novo_restaurante():
   restaurante_buscado = input('Nome do restaurante: ').title()
   busca_restaurante = testar_existencia_restaurante(restaurante_buscado)
   if busca_restaurante == None:
-    print("Restaurante não encontrado. Deseja Adicionar [1] - Sim [0] - Não")
+    print(f"Confirmar nome do restaurante: {restaurante_buscado} ? [1] - Sim [0] - Não")
     x = int(input())
     if x:
       return adicionar_restaurante(restaurante_buscado)
@@ -56,11 +57,10 @@ def novo_restaurante():
     return busca_restaurante
   
 def exibir_pedido(pedido):
-  ordem = sorted(pedido)
   tem = []
   print('Nº |     Prato       |      Preço       | Tempo de Preparo  | Quantidade | ')
-  for i in ordem:
-    qnt = ordem.count(i)
+  for i in pedido:
+    qnt = pedido.count(i)
     if i not in tem:
       print(f'{pedido.index(i):02d} | {i[0]:^15} | {(i[1] * qnt):^16} | {i[2]:^17} | {qnt:^11}|')
       tem.append(i)
@@ -76,45 +76,48 @@ def exibir_restaurante():
     print(i + 1,'-',restaurantes[i][0])
 
 def novo_pedido():
-  print('De qual restaurante gostaria de pedir?')
   exibir_restaurante()
   restaurante = int(input('Insira o número: '))
-  for i in range(len(restaurantes)):
+
+  # Validação que evita do usuário fornecer valores fora da lista de restaurantes
+  while restaurante not in range(1,len(restaurantes)+1):
+    print('Restaurante não encontrado!')
+    exibir_restaurante()
+    restaurante = int(input('Insira o número: '))
+
+  for i in range(1,len(restaurantes)+1):
     if i == restaurante:
-      return i - 1
+      return (i - 1)
 
 def exibir_cardapio():
   restaurante = novo_pedido()
   print(f'            Cardápio do Restaurante {restaurantes[restaurante][0]}\n')
-  print('|     Prato       |      Preço       | Tempo de Preparo  |')
-  print('-'*58)
+  print('| ID |      Prato      |      Preço       | Tempo de Preparo  |')
+  print('-'*63)
   pratos = restaurantes[restaurante][1]
   for prato in pratos:
-    print(f'|{prato[0]:^16} | {prato[1]:^16} | {prato[2]:^18} |')
-    print('-'*58)
+    print(f'|{pratos.index(prato):^3} |{prato[0]:^16} | {prato[1]:^16} | {prato[2]:^17} |')
+    print('-'*63)
+  return pratos
 
 def realizar_pedido():
-  exibir_cardapio()
+  pratos = exibir_cardapio()
   pedidos = []
   while True:
-    prato_desejado = input('Digite o prato desejado: ').title()
-    for restaurante in restaurantes:
-      cardapio = restaurante[1]
-      for prato in cardapio:
-        if prato_desejado == prato[0]:
-          pedidos.append(prato)
+    prato_desejado = int(input('Digite o prato ID do prato: '))
+    for prato in pratos:
+      if prato_desejado == pratos.index(prato):
+        pedidos.append(prato)
     print('[1] - Continuar com pedido \n[0] - Finalizar pedido')
     if input() == '0':
       break
   exibir_pedido(pedidos)
 
 def adicionar_novo_pratos():
-  exibir_restaurante()
-  
-  teste = novo_restaurante()
+  id = novo_pedido()
   print("Adicione um novo prato ao cardápio:")
   cardapio_adicional = adicionar_pratos()
-  restaurantes[teste][1].append(cardapio_adicional)
+  restaurantes[id][1].append(cardapio_adicional)
   print("Cardápio atualizado!")
 
 def main():
