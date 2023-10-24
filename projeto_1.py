@@ -14,6 +14,14 @@ def menu():
   --------------------
   => '''
     return input(menu)
+
+#Função responsavel por verificar se um prato está presente no cardápio do restaurante selecionado
+#A função retorna falso se o prato não for encontrado após iteração completa.
+
+def testar_existencia_cardapio(prato_buscado, restaurante_selecionado):
+  for prato in restaurante_selecionado[1]:
+    if prato_buscado == prato[0]:
+      return True
   
 #Função responsável por adicionar pratos ao cardápio de um restaurante cadastrado - não permitindo adicionar prato repetido. 
 # A função retorna uma lista contendo nome, valor e tempo de preparo do prato
@@ -24,8 +32,8 @@ def adicionar_pratos(restaurante_selecionado):
   if prato_repetido:
     pass
   else:
-    valor_prato_str = input('Valor do prato: ').replace(',', '.')
-    valor_prato = float(valor_prato_str)
+    valor_prato = input('Valor do prato: ').replace(',', '.')
+    valor_prato = float(valor_prato)
     tempo_preparo = input('Tempo de preparo: ')
 
     return [nome_prato, valor_prato, tempo_preparo]
@@ -41,7 +49,7 @@ def adicionar_cardapio(restaurante):
     if prato_adicionado != None:
       cardapio.append(prato_adicionado)
     else:
-      print(f'\nEsse prato já existe')
+      print('Esse prato já existe')
     print('[0] - Finalizar \n[1] - Continuar')
     if input() == '0':
         break
@@ -51,7 +59,7 @@ def adicionar_cardapio(restaurante):
 # Com isso, cria-se uma lista com os restaurantes e seus respctivos cardápios.
 
 def adicionar_restaurante(nome_restaurante):
-  print('Adicione ao menos um prato ao cardápio para confirmar cadastro:\n')
+  print('Adicione ao menos um prato ao cardápio para confirmar cadastro.')
   cardapio_restaurante = adicionar_cardapio(restaurantes_cadastrados[-1])
   novo_restaurante = [nome_restaurante,cardapio_restaurante]
   restaurantes_cadastrados.append(novo_restaurante)
@@ -65,16 +73,6 @@ def testar_existencia_restaurante(restaurante_buscado):
       if restaurante_buscado == restaurante[0]:
         codigo = restaurantes_cadastrados.index(restaurante)
         return codigo
-  return None
-
-#Função responsavel por verificar se um prato está presente no cardápio do restaurante selecionado
-#A função retorna falso se o prato não for encontrado após iteração completa.
-
-def testar_existencia_cardapio(prato_buscado, restaurante_selecionado):
-  for prato in restaurante_selecionado[1]:
-    if prato_buscado == prato[0]:
-      return True 
-  return False
 
 #Função responsável por pedir ao usuário o nome de um restaurante e verifica sua existencia.
 #Caso não exista, pede ao usuario confirmação para adicionar.
@@ -95,8 +93,15 @@ def novo_restaurante():
   
 def exibir_pedido(pedido, qnt_pedido):
   print('Nº |     Prato       |      Preço       | Tempo de Preparo  | Quantidade | ')
-  for i in pedido:
-      print(f'{pedido.index(i):02d} | {i[0]:^15} | {(i[1] * qnt_pedido[pedido.index(i)]):^16} | {i[2]:^17} | {qnt_pedido[pedido.index(i)]:^11}|')
+  for item in pedido:
+      print(f'{pedido.index(item):02d} | {item[0]:^15} | {(item[1] * qnt_pedido[pedido.index(item)]):^16} | {item[2]:^17} | {qnt_pedido[pedido.index(item)]:^11}|')
+
+def exibir_total(pedido, qnt_pedido):
+  total = 0
+  for item in pedido:
+    x = (item[1] * qnt_pedido[pedido.index(item)])
+    total += x
+  print(f'Total do pedido: R${total:.2f}')
 
 #Função responsável por exibir lista de restaurantes cadastrados.
 #Se nenhum restaurante estiver cadastrado, informa ao usuário.
@@ -142,7 +147,7 @@ def realizar_pedido():
   pedidos = []
   while True:
     prato_desejado = int(input('Digite o prato ID do prato: '))
-    qnt_do_pedido.append(int(input(f'Qual a quantidade? ')))
+    qnt_do_pedido.append(int(input('Qual a quantidade? ')))
     for prato in pratos:
       if prato_desejado == pratos.index(prato):
         pedidos.append(prato)
@@ -150,6 +155,7 @@ def realizar_pedido():
     if input() == '0':
       break
   exibir_pedido(pedidos, qnt_do_pedido)
+  exibir_total(pedidos, qnt_do_pedido)
 
 def adicionar_novo_pratos():
   id = novo_pedido()
