@@ -109,10 +109,10 @@ def exibir_total(pedido, qnt_pedido):
 def exibir_restaurante():
   if len(restaurantes_cadastrados) == 0:
         print("Nenhum restaurante cadastrado!")
-        return
-  print('Estes são os restaurantes_cadastrados disponíveis:')
-  for i in range(len(restaurantes_cadastrados)):
-    print(i + 1,'-',restaurantes_cadastrados[i][0])
+  else:
+    print('Estes são os restaurantes_cadastrados disponíveis:')
+    for i in range(len(restaurantes_cadastrados)):
+      print(i + 1,'-',restaurantes_cadastrados[i][0])
     
 
 
