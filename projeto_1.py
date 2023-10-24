@@ -99,8 +99,8 @@ def exibir_pedido(pedido, qnt_pedido):
 def exibir_total(pedido, qnt_pedido):
   total = 0
   for item in pedido:
-    x = (item[1] * qnt_pedido[pedido.index(item)])
-    total += x
+    total_parcial = (item[1] * qnt_pedido[pedido.index(item)])
+    total += total_parcial
   print(f'Total do pedido: R${total:.2f}')
 
 #Função responsável por exibir lista de restaurantes cadastrados.
