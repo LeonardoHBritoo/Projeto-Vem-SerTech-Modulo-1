@@ -39,10 +39,9 @@ def adicionar_cardapio(restaurante):
   return cardapio
 
 def adicionar_restaurante(nome_restaurante):
-  nome_restaurante1 = nome_restaurante
   print('Adicione ao menos um prato ao cardápio para confirmar cadastro:\n')
   cardapio_restaurante = adicionar_cardapio(restaurantes_cadastrados[-1])
-  novo_restaurante = [nome_restaurante1,cardapio_restaurante]
+  novo_restaurante = [nome_restaurante,cardapio_restaurante]
   restaurantes_cadastrados.append(novo_restaurante)
 
 def testar_existencia_restaurante(restaurante_buscado):
