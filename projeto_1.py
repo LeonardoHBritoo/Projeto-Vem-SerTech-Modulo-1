@@ -46,7 +46,7 @@ def adicionar_cardapio(restaurante):
   atualizar_cardapio = True
   while atualizar_cardapio:
     prato_adicionado = adicionar_pratos(restaurante)
-    if prato_adicionado != None:
+    if prato_adicionado:
       cardapio.append(prato_adicionado)
     else:
       print('Esse prato já existe')
@@ -61,8 +61,8 @@ def adicionar_cardapio(restaurante):
 def adicionar_restaurante(nome_restaurante):
   print('Adicione ao menos um prato ao cardápio para confirmar cadastro.')
   cardapio_restaurante = adicionar_cardapio(restaurantes_cadastrados[-1])
-  novo_restaurante = [nome_restaurante,cardapio_restaurante]
-  restaurantes_cadastrados.append(novo_restaurante)
+  criar_novo_restaurante = [nome_restaurante,cardapio_restaurante]
+  restaurantes_cadastrados.append(criar_novo_restaurante)
 
 # Função responsável por testar se o restaurante já foi cadastrado. 
 # Para tanto, utilizou-se da função index com a finalidade de encontrar a posição do restaurante buscado. 
@@ -77,7 +77,7 @@ def testar_existencia_restaurante(restaurante_buscado):
 # Função responsável por pedir ao usuário o nome de um restaurante e verifica sua existência.
 # Caso não exista, pede ao usuario confirmação para adicionar.
 
-def novo_restaurante():
+def criar_novo_restaurante():
   restaurante_buscado = input('Nome do restaurante: ').title()
   busca_restaurante = testar_existencia_restaurante(restaurante_buscado)
   if busca_restaurante == None:
@@ -94,7 +94,14 @@ def novo_restaurante():
 def exibir_pedido(pedido, qnt_pedido):
   print('Nº |     Prato       |      Preço       | Tempo de Preparo  | Quantidade | ')
   for item in pedido:
-      print(f'{pedido.index(item):02d} | {item[0]:^15} | {(item[1] * qnt_pedido[pedido.index(item)]):^16} | {item[2]:^17} | {qnt_pedido[pedido.index(item)]:^11}|')
+      
+      id_pedido = pedido.index(item)
+      prato = item[0]
+      preco_total_prato = item[1] * qnt_pedido[pedido.index(item)]
+      tempo_preparo = item[2]
+      quantidade_pedido = qnt_pedido[pedido.index(item)]
+
+      print(f'{id_pedido:02d} | {prato:^15} | {preco_total_prato:^16} | {tempo_preparo:^17} | {quantidade_pedido:^11}|')
 
 def exibir_total(pedido, qnt_pedido):
   total = 0
@@ -158,7 +165,8 @@ def realizar_pedido():
     prato_desejado = int(input('Digite o prato ID do prato: '))
     qnt_do_pedido.append(int(input('Qual a quantidade? ')))
     for prato in pratos:
-      if prato_desejado == pratos.index(prato):
+      prato_encontrado = prato_desejado == pratos.index(prato)
+      if prato_encontrado:
         pedidos.append(prato)
     print('[1] - Continuar com pedido \n[0] - Finalizar pedido')
     if input() == '0':
@@ -173,7 +181,7 @@ def adicionar_novo_pratos():
   id = novo_pedido()
   print("Adicione um novo prato ao cardápio:")
   cardapio_adicional = adicionar_pratos(restaurantes_cadastrados[id])
-  if cardapio_adicional != None:
+  if cardapio_adicional:
     restaurantes_cadastrados[id][1].append(cardapio_adicional)
     print("Cardápio atualizado!")
   else:
@@ -185,7 +193,7 @@ def main():
   while True:
     opcao = menu()
     if opcao == '1': #Adicionar Restaurante
-      novo_restaurante()
+      criar_novo_restaurante()
     elif opcao == '2': #Realizar Pedido
       realizar_pedido()
     elif opcao == '3': #Adicionar Pratos à um Restaurante
