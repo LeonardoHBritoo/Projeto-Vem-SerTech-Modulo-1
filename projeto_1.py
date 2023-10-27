@@ -161,7 +161,11 @@ def realizar_pedido():
   pratos = exibir_cardapio()
   qnt_do_pedido = []
   pedidos = []
-  while True:
+
+  # Define a variável continuar_pedido como condição True para o While
+  continuar_pedido = True
+
+  while continuar_pedido:
     prato_desejado = int(input('Digite o prato ID do prato: '))
     qnt_do_pedido.append(int(input('Qual a quantidade? ')))
     for prato in pratos:
@@ -169,8 +173,11 @@ def realizar_pedido():
       if prato_encontrado:
         pedidos.append(prato)
     print('[1] - Continuar com pedido \n[0] - Finalizar pedido')
-    if input() == '0':
-      break
+    opcao = input()
+    
+    if opcao == '0':
+      continuar_pedido = False  
+
   exibir_pedido(pedidos, qnt_do_pedido)
   exibir_total(pedidos, qnt_do_pedido)
 
@@ -190,7 +197,11 @@ def adicionar_novo_pratos():
 # Função principal que chama o menu e aciona as funções solicitadas pelo usuário.
 
 def main():
-  while True:
+
+  # Define a variável controle_main como condição True para o While
+  controle_main = True
+
+  while controle_main:
     opcao = menu()
     if opcao == '1': #Adicionar Restaurante
       criar_novo_restaurante()
@@ -202,8 +213,8 @@ def main():
       exibir_cardapio()
     elif opcao == '0':
       print('Encerrando...')
-      break
+      controle_main = False  
     else:
       print('Opção Inválida')
-  
+
 main()
