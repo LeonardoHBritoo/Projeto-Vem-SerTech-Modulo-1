@@ -50,9 +50,8 @@ def adicionar_cardapio(restaurante):
       cardapio.append(prato_adicionado)
     else:
       print('Esse prato já existe')
-    print('[0] - Finalizar \n[1] - Continuar')
-    if input() == '0':
-        break
+    print('[0] - Finalizar \n[1] - Continuar')  
+    atualizar_cardapio = int(input())
   return cardapio
 
 # Funcão responsável por solicitar cadastro de restaurante ao usuário, possibilitando o cadastro do cardápio em seguida. 
@@ -173,10 +172,7 @@ def realizar_pedido():
       if prato_encontrado:
         pedidos.append(prato)
     print('[1] - Continuar com pedido \n[0] - Finalizar pedido')
-    opcao = input()
-    
-    if opcao == '0':
-      continuar_pedido = False  
+    continuar_pedido = int(input())
 
   exibir_pedido(pedidos, qnt_do_pedido)
   exibir_total(pedidos, qnt_do_pedido)
