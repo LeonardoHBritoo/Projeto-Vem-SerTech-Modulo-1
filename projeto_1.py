@@ -203,13 +203,13 @@ def main():
 
   while controle_main:
     opcao = menu()
-    if opcao == '1':
+    if opcao == '1': #Adicionar Restaurante
       criar_novo_restaurante()
-    elif opcao == '2':
+    elif opcao == '2': #Realizar Pedido
       realizar_pedido()
-    elif opcao == '3':
+    elif opcao == '3': #Adicionar Pratos à um Restaurante
       adicionar_novo_pratos()
-    elif opcao == '4':
+    elif opcao == '4': #Visualizar Cardápios
       exibir_cardapio()
     elif opcao == '0':
       print('Encerrando...')
